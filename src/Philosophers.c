@@ -30,6 +30,25 @@ void	*eating(void *philo_v)
 	return (NULL);
 }
 
+static int mutex_destroy(t_main *main)
+{
+	int	i;
+
+	i = 0;
+	while (i < main->amount)
+	{
+		pthread_mutex_destroy(&main->philos[i]->mutex);
+		pthread_mutex_destroy(&main->forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&main->dead);
+	pthread_mutex_destroy(&main->common_eat);
+	pthread_mutex_destroy(&main->str);
+	free_p(main);
+	free_argv(main->philos);
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	t_main		main;
@@ -45,12 +64,12 @@ int	main(int argc, char **argv)
 	{
 		philo = (void *)(main.philos[i]);
 		if (pthread_create(&main.philo[i], NULL, eating, philo) != 0)
-			return (1);
+			return (mutex_destroy(&main));
 		pthread_detach(main.philo[i++]);
 		usleep(100);
 	}
-	pthread_mutex_lock(&main.died);
-	pthread_mutex_unlock(&main.died);
+	pthread_mutex_lock(&main.dead);
+	pthread_mutex_unlock(&main.dead);
 	write(1, "Exit\n", 5);
-	return (0);
+	return (mutex_destroy(&main) && 0);
 }
