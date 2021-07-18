@@ -28,10 +28,17 @@ void	eat(t_philo *philo)
 	if (philo->main->number_of_times >= 0)
 	{
 		pthread_mutex_lock(&philo->main->common_eat);
-		philo->main->must_eat--;
+		if (philo->main->must_eat > 0)
+		{
+			action(philo, EAT);
+			philo->main->must_eat--;
+		}
+		else
+			action(philo, OVER);
 		pthread_mutex_unlock(&philo->main->common_eat);
 	}
-	action(philo, EAT);
+	else
+		action(philo, EAT);
 	usleep(philo->main->time_to_eat * 1000);
 	philo->eat = 0;
 	pthread_mutex_unlock(&philo->mutex);
