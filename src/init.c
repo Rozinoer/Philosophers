@@ -69,7 +69,7 @@ int	check_argv(int argc, char **argv)
 		return (str_err("Error: argument\n", 1));
 	if (argc == 6)
 	{
-		if (ft_atoi(argv[5]) <= 0)
+		if (ft_atoi(argv[5]) < 0)
 			return (str_err("Error: argument\n", 1));
 	}
 	return (0);
@@ -83,8 +83,12 @@ int	init(int argc, char **argv, t_main *main)
 	main->time_to_die = ft_atoi(argv[2]);
 	main->time_to_eat = ft_atoi(argv[3]);
 	main->time_to_sleep = ft_atoi(argv[4]);
+	main->number_of_times = -1;
 	if (argc == 6)
+	{
 		main->number_of_times = ft_atoi(argv[5]);
+		main->must_eat = main->number_of_times * main->amount;
+	}
 	main->philo = (pthread_t *)malloc(sizeof(pthread_t) * (main->amount));
 	if (!main->philo)
 		return (str_err("Error: malloc\n", 1));

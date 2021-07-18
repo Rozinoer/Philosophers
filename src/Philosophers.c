@@ -30,19 +30,6 @@ void	*eating(void *philo_v)
 	return (NULL);
 }
 
-int	start(t_main *main)
-{
-	pthread_t	thr;
-
-	if (main->number_of_times > 0)
-	{
-		if (pthread_create(&thr, NULL, &monitoring_all, (void *)main) != 0)
-			return (1);
-		pthread_detach(thr);
-	}
-	return (0);
-}
-
 int	main(int argc, char **argv)
 {
 	t_main		main;
@@ -62,7 +49,6 @@ int	main(int argc, char **argv)
 		pthread_detach(main.philo[i++]);
 		usleep(100);
 	}
-	start(&main);
 	pthread_mutex_lock(&main.died);
 	pthread_mutex_unlock(&main.died);
 	write(1, "Exit\n", 5);

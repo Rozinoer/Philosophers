@@ -47,6 +47,7 @@ typedef struct s_main
 	uint64_t		time_to_sleep;
 	pthread_mutex_t	str;
 	int				number_of_times;
+	int				must_eat;
 }	t_main;
 
 enum e_action

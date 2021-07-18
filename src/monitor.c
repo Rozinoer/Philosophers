@@ -12,26 +12,6 @@
 
 #include "Philosophers.h"
 
-void	*monitoring_all(void *main_v)
-{
-	t_main	*main;
-	int		must_eat;
-	int		i;
-
-	i = 0;
-	must_eat = 0;
-	main = (t_main *)main_v;
-	while (must_eat < main->number_of_times)
-	{
-		i = 0;
-		while (i < main->amount)
-			pthread_mutex_lock(&main->philos[i++]->count);
-		must_eat++;
-	}
-	action(main->philos[0], OVER);
-	return (0);
-}
-
 void	*monitoring(void *philo_v)
 {
 	t_philo		*philo;
@@ -51,6 +31,5 @@ void	*monitoring(void *philo_v)
 			return (NULL);
 		}
 		pthread_mutex_unlock(&philo->mutex);
-		usleep(1000);
 	}
 }
