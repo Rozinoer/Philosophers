@@ -26,6 +26,18 @@ void	stop_sim(uint64_t time, int pos, int type)
 		printf ("\033[0;31m%llu %d is DEAD!\033[0m\n", time, pos);
 }
 
+void	sim(uint64_t time, int pos, int type)
+{
+	if (type == TAKE_FORKS)
+		printf ("%llu %d has token a fork!\n", time, pos);
+	else if (type == SLEEP)
+		printf ("%llu %d is sleeping!\n", time, pos);
+	else if (type == THINK)
+		printf ("%llu %d is thinking!\n", time, pos);
+	else if (type == EAT)
+		printf ("%llu %d is eating!\n", time, pos);
+}
+
 int	action(t_philo *philo, int type)
 {
 	static int	done;
@@ -36,15 +48,8 @@ int	action(t_philo *philo, int type)
 	time = get_time() - philo->main->start;
 	if (done)
 	{
-		if (type == TAKE_FORKS)
-			printf ("%llu %d has token a fork!\n", time, (int)philo->pos);
-		else if (type == SLEEP)
-			printf ("%llu %d is sleeping!\n", time, (int)philo->pos);
-		else if (type == THINK)
-			printf ("%llu %d is thinking!\n", time, (int)philo->pos);
-		else if (type == EAT)
-			printf ("%llu %d is eating!\n", time, (int)philo->pos);
-		else if (type == DEAD || type == OVER)
+		sim(time, philo->pos, type);
+		if (type == DEAD || type == OVER)
 		{
 			done = 0;
 			stop_sim(time, philo->pos, type);

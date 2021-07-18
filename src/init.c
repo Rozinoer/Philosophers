@@ -27,6 +27,7 @@ static void	init_mutex(t_main *main, int i)
 		pthread_mutex_init(&main->forks[i - 1], NULL);
 		i--;
 	}
+	main->start = get_time();
 	pthread_mutex_init(&main->died, NULL);
 	pthread_mutex_init(&main->str, NULL);
 	pthread_mutex_lock(&main->died);
