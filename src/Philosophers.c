@@ -36,7 +36,7 @@ int	start(t_main *main)
 
 	if (main->number_of_times > 0)
 	{
-		if (pthread_create(&thr, NULL, &monitoring_all, (void *)&main) != 0)
+		if (pthread_create(&thr, NULL, &monitoring_all, (void *)main) != 0)
 			return (1);
 		pthread_detach(thr);
 	}
