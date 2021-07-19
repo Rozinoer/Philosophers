@@ -26,6 +26,7 @@ void	eat(t_philo *philo)
 	philo->last_meal = get_time();
 	if (philo->main->number_of_times >= 0)
 	{
+		printf("------------------------------------------------------------------------------\n");
 		pthread_mutex_lock(&philo->main->common_eat);
 		if (philo->main->must_eat > 0 && philo->eat >= 0)
 		{
