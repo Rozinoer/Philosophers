@@ -70,7 +70,7 @@ int			str_err(char *str, int code);
 int			action(t_philo *philo, int type);
 
 int			free_p(t_main *main);
-int			free_argv(t_philo **argv);
+int			free_argv(t_philo **argv, int i);
 
 int			ft_atoi(const char *str);
 int			ft_isdigit(int c);

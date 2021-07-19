@@ -1,15 +1,10 @@
 #include "Philosophers.h"
 
-int	free_argv(t_philo **argv)
+int	free_argv(t_philo **argv, int i)
 {
-	int	i;
-
-	i = 0;
-	while (argv[i] != NULL)
-		i++;
-	while (i >= 0)
+	while (i-1 >= 0)
 	{
-		free(argv[i]);
+		free(argv[i - 1]);
 		i--;
 	}
 	free(argv);

@@ -45,7 +45,7 @@ static int mutex_destroy(t_main *main)
 	pthread_mutex_destroy(&main->common_eat);
 	pthread_mutex_destroy(&main->str);
 	free_p(main);
-	free_argv(main->philos);
+	free_argv(main->philos, main->amount);
 	return (1);
 }
 
