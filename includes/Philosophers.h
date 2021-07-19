@@ -30,7 +30,6 @@ typedef struct s_philo
 	int				must_eat;
 	struct s_main	*main;
 	pthread_mutex_t	mutex;
-	pthread_mutex_t	count;
 }	t_philo;
 
 typedef struct s_main

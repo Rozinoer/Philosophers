@@ -30,6 +30,32 @@ void	*eating(void *philo_v)
 	return (NULL);
 }
 
+int	freed(t_main *main)
+{
+	int i;
+
+	i = 0;
+	while (i < main->amount)
+	{
+		pthread_mutex_destroy(&main->philos[i]->mutex);
+		pthread_mutex_destroy(&main->forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&main->died);
+	pthread_mutex_destroy(&main->str);
+	pthread_mutex_destroy(&main->all_eat);
+	i = main->amount - 1;
+	while (i >= 0)
+	{
+		free(main->philos[i]);
+		i--;
+	}
+	free(main->philos);
+	free(main->forks);
+	free(main->philo);
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	t_main		main;
@@ -40,17 +66,17 @@ int	main(int argc, char **argv)
 	if (argc < 5 || argc > 6)
 		return (str_err("Error argument\n", 1));
 	if (init(argc, argv, &main))
-		return (str_err("Error init\n", 1));
+		return (str_err("Error init\n", 1) && freed(&main));
 	main.start = get_time();
 	while (i < main.amount)
 	{
 		philo = (void *)(main.philos[i]);
 		if (pthread_create(&main.philo[i], NULL, eating, philo) != 0)
-			return (1);
+			return (freed(&main));
 		pthread_detach(main.philo[i++]);
 		usleep(100);
 	}
 	pthread_mutex_lock(&main.died);
 	pthread_mutex_unlock(&main.died);
-	return (0);
+	return (freed(&main) && 0);
 }
