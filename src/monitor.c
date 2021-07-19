@@ -22,7 +22,7 @@ void	*monitoring(void *philo_v)
 	{
 		pthread_mutex_lock(&philo->mutex);
 		time = get_time();
-		if (!philo->eat && (time - philo->last_meal
+		if ((time - philo->last_meal
 				> philo->main->time_to_die))
 		{
 			action(philo, DEAD);
