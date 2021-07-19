@@ -8,10 +8,8 @@ SRC = src/Philosophers.c \
 	src/init.c \
 	src/eat.c \
 	src/print.c \
-	src/freed.c \
 	src/monitor.c \
 	utils/ft_atoi.c \
-	utils/get_time.c \
 	utils/ft_isdigit.c \
 
 SRCS = $(SRC) 

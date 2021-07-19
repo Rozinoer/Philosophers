@@ -23,24 +23,25 @@ void	take_forks(t_philo *philo)
 void	eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->mutex);
+	philo->eat = 1;
 	philo->last_meal = get_time();
+	pthread_mutex_lock(&philo->main->all_eat);
 	if (philo->main->number_of_times >= 0)
 	{
-		printf("------------------------------------------------------------------------------\n");
-		pthread_mutex_lock(&philo->main->common_eat);
-		if (philo->main->must_eat > 0 && philo->eat >= 0)
+		if (philo->main->must_eat > 0 && philo->eat > 0)
 		{
-			action(philo, EAT);
 			philo->main->must_eat--;
 			philo->eat--;
+			action(philo, EAT);
 		}
 		else
 			action(philo, OVER);
-		pthread_mutex_unlock(&philo->main->common_eat);
 	}
 	else
 		action(philo, EAT);
+	pthread_mutex_unlock(&philo->main->all_eat);
 	usleep(philo->main->time_to_eat * 1000);
+	philo->eat = 0;
 	pthread_mutex_unlock(&philo->mutex);
 }
 
@@ -48,13 +49,6 @@ void	put_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->main->forks[philo->lfork]);
 	pthread_mutex_unlock(&philo->main->forks[philo->rfork]);
-	pthread_mutex_lock(&philo->main->common_eat);
-	if (philo->main->number_of_times >= 0)
-	{
-		if(philo->main->must_eat == 0)
-			action(philo, OVER);
-	}
-	pthread_mutex_unlock(&philo->main->common_eat);
 	action(philo, SLEEP);
 	usleep(philo->main->time_to_sleep * 1000);
 	action(philo, THINK);

@@ -30,6 +30,7 @@ typedef struct s_philo
 	int				eat;
 	struct s_main	*main;
 	pthread_mutex_t	mutex;
+	pthread_mutex_t	count;
 }	t_philo;
 
 typedef struct s_main
@@ -38,8 +39,8 @@ typedef struct s_main
 	int				flag;
 	pthread_t		*philo;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	dead;
-	pthread_mutex_t	common_eat;
+	pthread_mutex_t	died;
+	pthread_mutex_t	all_eat;
 	t_philo			**philos;
 	uint64_t		start;
 	uint64_t		time_to_die;
@@ -68,9 +69,6 @@ void		*monitoring_all(void *main_v);
 void		*monitoring(void *philo_v);
 int			str_err(char *str, int code);
 int			action(t_philo *philo, int type);
-
-int			free_p(t_main *main);
-int			free_argv(t_philo **argv, int i);
 
 int			ft_atoi(const char *str);
 int			ft_isdigit(int c);

@@ -30,24 +30,18 @@ void	*eating(void *philo_v)
 	return (NULL);
 }
 
-static int mutex_destroy(t_main *main)
-{
-	int	i;
+// int	start(t_main *main)
+// {
+// 	pthread_t	thr;
 
-	i = 0;
-	while (i < main->amount)
-	{
-		pthread_mutex_destroy(&main->philos[i]->mutex);
-		pthread_mutex_destroy(&main->forks[i]);
-		i++;
-	}
-	pthread_mutex_destroy(&main->dead);
-	pthread_mutex_destroy(&main->common_eat);
-	pthread_mutex_destroy(&main->str);
-	free_p(main);
-	free_argv(main->philos, main->amount);
-	return (1);
-}
+// 	if (main->number_of_times > 0)
+// 	{
+// 		if (pthread_create(&thr, NULL, &monitoring_all, (void *)main) != 0)
+// 			return (1);
+// 		pthread_detach(thr);
+// 	}
+// 	return (0);
+// }
 
 int	main(int argc, char **argv)
 {
@@ -60,16 +54,17 @@ int	main(int argc, char **argv)
 		return (str_err("Error argument\n", 1));
 	if (init(argc, argv, &main))
 		return (str_err("Error init\n", 1));
-	printf("%d\n", main.must_eat);
 	while (i < main.amount)
 	{
 		philo = (void *)(main.philos[i]);
 		if (pthread_create(&main.philo[i], NULL, eating, philo) != 0)
-			return (mutex_destroy(&main));
+			return (1);
 		pthread_detach(main.philo[i++]);
 		usleep(100);
 	}
-	pthread_mutex_lock(&main.dead);
-	pthread_mutex_unlock(&main.dead);
-	return (mutex_destroy(&main) && 0);
+	// start(&main);
+	pthread_mutex_lock(&main.died);
+	pthread_mutex_unlock(&main.died);
+	write(1, "Exit\n", 5);
+	return (0);
 }
