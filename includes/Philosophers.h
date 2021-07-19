@@ -41,12 +41,12 @@ typedef struct s_main
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	died;
 	pthread_mutex_t	all_eat;
+	pthread_mutex_t	str;
 	t_philo			**philos;
 	uint64_t		start;
 	uint64_t		time_to_die;
 	uint64_t		time_to_eat;
 	uint64_t		time_to_sleep;
-	pthread_mutex_t	str;
 	int				number_of_times;
 	int				must_eat;
 }	t_main;

@@ -12,14 +12,6 @@
 
 #include "Philosophers.h"
 
-uint64_t	get_time(void)
-{
-	static struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
-}
-
 static void	init_mutex(t_main *main, int i)
 {
 	while (i > 0)
@@ -76,10 +68,8 @@ int	check_argv(int argc, char **argv)
 	return (0);
 }
 
-int	init(int argc, char **argv, t_main *main)
+void	set_param(t_main *main, char **argv, int argc)
 {
-	if (check_argv(argc, argv))
-		return (1);
 	main->amount = ft_atoi(argv[1]);
 	main->time_to_die = ft_atoi(argv[2]);
 	main->time_to_eat = ft_atoi(argv[3]);
@@ -90,6 +80,16 @@ int	init(int argc, char **argv, t_main *main)
 		main->number_of_times = ft_atoi(argv[5]);
 		main->must_eat = main->number_of_times * main->amount;
 	}
+	main->forks = NULL;
+	main->philo = NULL;
+	main->philos = NULL;
+}
+
+int	init(int argc, char **argv, t_main *main)
+{
+	if (check_argv(argc, argv))
+		return (1);
+	set_param(main, argv, argc);
 	main->philo = (pthread_t *)malloc(sizeof(pthread_t) * (main->amount));
 	if (!main->philo)
 		return (str_err("Error: malloc\n", 1));
