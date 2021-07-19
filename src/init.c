@@ -12,6 +12,14 @@
 
 #include "Philosophers.h"
 
+uint64_t	get_time(void)
+{
+	static struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
+}
+
 static void	init_mutex(t_main *main, int i)
 {
 	while (i > 0)
@@ -19,7 +27,6 @@ static void	init_mutex(t_main *main, int i)
 		pthread_mutex_init(&main->forks[i - 1], NULL);
 		i--;
 	}
-	main->start = get_time();
 	pthread_mutex_init(&main->died, NULL);
 	pthread_mutex_init(&main->str, NULL);
 	pthread_mutex_init(&main->all_eat, NULL);
@@ -35,7 +42,7 @@ static int	init_each_philo(t_main *main)
 	{
 		main->philos[i] = (t_philo *)malloc(sizeof(t_philo));
 		main->philos[i]->main = main;
-		main->philos[i]->eat = main->number_of_times;
+		main->philos[i]->must_eat = 0;
 		main->philos[i]->pos = i + 1;
 		main->philos[i]->lfork = i;
 		if (i + 1 == main->amount)
@@ -43,8 +50,8 @@ static int	init_each_philo(t_main *main)
 		else
 			main->philos[i]->rfork = i + 1;
 		pthread_mutex_init(&main->philos[i]->mutex, NULL);
-		if (main->number_of_times > 0)
-			pthread_mutex_init(&main->philos[i]->count, NULL);
+		if (main->number_of_times >= 0)
+			main->philos[i]->must_eat = main->number_of_times;
 		i++;
 	}
 	return (0);
@@ -68,8 +75,11 @@ int	check_argv(int argc, char **argv)
 	return (0);
 }
 
-void	set_param(t_main *main, char **argv, int argc)
+
+int	init(int argc, char **argv, t_main *main)
 {
+	if (check_argv(argc, argv))
+		return (1);
 	main->amount = ft_atoi(argv[1]);
 	main->time_to_die = ft_atoi(argv[2]);
 	main->time_to_eat = ft_atoi(argv[3]);
@@ -78,18 +88,8 @@ void	set_param(t_main *main, char **argv, int argc)
 	if (argc == 6)
 	{
 		main->number_of_times = ft_atoi(argv[5]);
-		main->must_eat = main->number_of_times * main->amount;
+		main->common_eat = main->number_of_times * main->amount;
 	}
-	main->forks = NULL;
-	main->philo = NULL;
-	main->philos = NULL;
-}
-
-int	init(int argc, char **argv, t_main *main)
-{
-	if (check_argv(argc, argv))
-		return (1);
-	set_param(main, argv, argc);
 	main->philo = (pthread_t *)malloc(sizeof(pthread_t) * (main->amount));
 	if (!main->philo)
 		return (str_err("Error: malloc\n", 1));

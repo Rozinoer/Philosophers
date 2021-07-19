@@ -12,31 +12,6 @@
 
 #include "Philosophers.h"
 
-int free(t_main *main)
-{
-	int	i;
-
-	i = 0;
-	while (i < main->amount)
-	{
-		pthread_mutex_destroy(&main->philos[i]->mutex);
-		pthread_mutex_destroy(&main->forks[i]);
-		i++;
-	}
-	pthread_mutex_destroy(&main->died);
-	pthread_mutex_destroy(&main->all_eat);
-	pthread_mutex_destroy(&main->str);
-	while (main->amount - 1 >= 0)
-	{
-		free(main->philos[main->amount - 1]);
-		main->amount--;
-	}
-	free(main->philos);
-	free(main->forks);
-	free(main->philo);
-	return (1);
-}
-
 void	*eating(void *philo_v)
 {
 	t_philo		*philo;
@@ -66,6 +41,7 @@ int	main(int argc, char **argv)
 		return (str_err("Error argument\n", 1));
 	if (init(argc, argv, &main))
 		return (str_err("Error init\n", 1));
+	main.start = get_time();
 	while (i < main.amount)
 	{
 		philo = (void *)(main.philos[i]);

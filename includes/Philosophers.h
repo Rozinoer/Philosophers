@@ -27,7 +27,7 @@ typedef struct s_philo
 	int				rfork;
 	uint64_t		last_meal;
 	uint64_t		limit;
-	int				eat;
+	int				must_eat;
 	struct s_main	*main;
 	pthread_mutex_t	mutex;
 	pthread_mutex_t	count;
@@ -37,18 +37,18 @@ typedef struct s_main
 {
 	int				amount;
 	int				flag;
+	int				common_eat;
 	pthread_t		*philo;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	died;
-	pthread_mutex_t	all_eat;
 	pthread_mutex_t	str;
+	pthread_mutex_t	all_eat;
 	t_philo			**philos;
 	uint64_t		start;
 	uint64_t		time_to_die;
 	uint64_t		time_to_eat;
 	uint64_t		time_to_sleep;
 	int				number_of_times;
-	int				must_eat;
 }	t_main;
 
 enum e_action
