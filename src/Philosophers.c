@@ -60,6 +60,7 @@ int	main(int argc, char **argv)
 		return (str_err("Error argument\n", 1));
 	if (init(argc, argv, &main))
 		return (str_err("Error init\n", 1));
+	printf("%d\n", main.must_eat);
 	while (i < main.amount)
 	{
 		philo = (void *)(main.philos[i]);
@@ -70,6 +71,5 @@ int	main(int argc, char **argv)
 	}
 	pthread_mutex_lock(&main.dead);
 	pthread_mutex_unlock(&main.dead);
-	write(1, "Exit\n", 5);
 	return (mutex_destroy(&main) && 0);
 }

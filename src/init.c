@@ -35,7 +35,7 @@ static int	init_each_philo(t_main *main)
 	{
 		main->philos[i] = (t_philo *)malloc(sizeof(t_philo));
 		main->philos[i]->main = main;
-		main->philos[i]->eat = 0;
+		main->philos[i]->eat = main->number_of_times;
 		main->philos[i]->pos = i + 1;
 		main->philos[i]->lfork = i;
 		if (i + 1 == main->amount)
