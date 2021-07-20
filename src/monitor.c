@@ -26,6 +26,7 @@ void	*monitoring(void *philo_v)
 		{
 			action(philo, DEAD);
 			pthread_mutex_unlock(&philo->main->died);
+			pthread_mutex_lock(&philo->main->str);
 			pthread_mutex_unlock(&philo->mutex);
 			return (NULL);
 		}

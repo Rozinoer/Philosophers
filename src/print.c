@@ -54,6 +54,7 @@ int	action(t_philo *philo, int type)
 			done = 0;
 			stop_sim(time, philo->pos, type);
 			pthread_mutex_unlock(&philo->main->died);
+			pthread_mutex_lock(&philo->main->str);
 			usleep(1000);
 		}
 	}
