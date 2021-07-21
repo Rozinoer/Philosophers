@@ -56,17 +56,25 @@ static int	init_each_philo(t_main *main)
 
 static int	check_argv(int argc, char **argv)
 {
+	int		i;
+	char	*p;
+
+	i = 1;
+	while (i < argc)
+	{
+		p = argv[i];
+		if (ft_isdigit(*p) == 0)
+			return (1);
+		i++;
+	}
 	if (ft_atoi(argv[1]) <= 0 || ft_atoi(argv[1]) > 200)
 		return (1);
-	if (ft_atoi(argv[2]) <= 0)
-		return (1);
-	if (ft_atoi(argv[3]) <= 0)
-		return (1);
-	if (ft_atoi(argv[4]) <= 0)
+	if (ft_atoi(argv[2]) < 0 || ft_atoi(argv[3]) < 0
+		|| ft_atoi(argv[4]) < 0)
 		return (1);
 	if (argc == 6)
 	{
-		if (ft_atoi(argv[5]) <= 0)
+		if (ft_atoi(argv[5]) < 0)
 			return (1);
 	}
 	return (0);
