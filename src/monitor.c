@@ -15,11 +15,12 @@
 void	*monitoring(void *philo_v)
 {
 	t_philo		*philo;
-	uint64_t	time;
+	long int	time;
 
 	philo = (t_philo *)philo_v;
 	while (1)
 	{
+		usleep(100);
 		pthread_mutex_lock(&philo->mutex);
 		time = get_time();
 		if (time - philo->last_meal > philo->main->time_to_die)
@@ -31,6 +32,5 @@ void	*monitoring(void *philo_v)
 			return (NULL);
 		}
 		pthread_mutex_unlock(&philo->mutex);
-		usleep(1000);
 	}
 }

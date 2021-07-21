@@ -25,8 +25,8 @@ typedef struct s_philo
 	int				pos;
 	int				lfork;
 	int				rfork;
-	uint64_t		last_meal;
-	uint64_t		limit;
+	long int		last_meal;
+	long int		limit;
 	int				must_eat;
 	struct s_main	*main;
 	pthread_mutex_t	mutex;
@@ -43,10 +43,10 @@ typedef struct s_main
 	pthread_mutex_t	str;
 	pthread_mutex_t	all_eat;
 	t_philo			**philos;
-	uint64_t		start;
-	uint64_t		time_to_die;
-	uint64_t		time_to_eat;
-	uint64_t		time_to_sleep;
+	long int		start;
+	long int		time_to_die;
+	long int		time_to_eat;
+	long int		time_to_sleep;
 	int				number_of_times;
 }	t_main;
 
@@ -63,6 +63,7 @@ enum e_action
 void		take_forks(t_philo *philo);
 void		eat(t_philo *philo);
 void		put_forks(t_philo *philo);
+void		ph_sleep(int t);
 
 void		*monitoring_all(void *main_v);
 void		*monitoring(void *philo_v);
@@ -72,6 +73,6 @@ int			action(t_philo *philo, int type);
 int			ft_atoi(const char *str);
 int			ft_isdigit(int c);
 int			init(int argc, char **argv, t_main *main);
-uint64_t	get_time(void);
+long int	get_time(void);
 
 #endif

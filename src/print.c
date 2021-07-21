@@ -18,30 +18,30 @@ int	str_err(char *str, int code)
 	return (code);
 }
 
-void	stop_sim(uint64_t time, int pos, int type)
+void	stop_sim(long int time, int pos, int type)
 {
 	if (type == OVER)
 		printf ("\033[0;31mOVER\033[0m\n");
 	else if (type == DEAD)
-		printf ("\033[0;31m%llu %d is DEAD!\033[0m\n", time, pos);
+		printf ("\033[0;31m%ld %d is DEAD!\033[0m\n", time, pos);
 }
 
-void	sim(uint64_t time, int pos, int type)
+void	sim(long int time, int pos, int type)
 {
 	if (type == TAKE_FORKS)
-		printf ("%llu %d has token a fork!\n", time, pos);
+		printf ("%ld %d has token a fork!\n", time, pos);
 	else if (type == SLEEP)
-		printf ("%llu %d is sleeping!\n", time, pos);
+		printf ("%ld %d is sleeping!\n", time, pos);
 	else if (type == THINK)
-		printf ("%llu %d is thinking!\n", time, pos);
+		printf ("%ld %d is thinking!\n", time, pos);
 	else if (type == EAT)
-		printf ("%llu %d is eating!\n", time, pos);
+		printf ("%ld %d is eating!\n", time, pos);
 }
 
 int	action(t_philo *philo, int type)
 {
 	static int	done;
-	uint64_t	time;
+	long int	time;
 
 	done = 1;
 	pthread_mutex_lock(&philo->main->str);
@@ -55,7 +55,6 @@ int	action(t_philo *philo, int type)
 			stop_sim(time, philo->pos, type);
 			pthread_mutex_unlock(&philo->main->dead);
 			pthread_mutex_lock(&philo->main->str);
-			usleep(1000);
 		}
 	}
 	pthread_mutex_unlock(&philo->main->str);

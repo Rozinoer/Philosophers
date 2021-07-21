@@ -12,28 +12,31 @@
 
 #include "Philosophers.h"
 
-uint64_t	get_time(void)
+long int	get_time(void)
 {
+	long int time;
 	static struct timeval	tv;
 
+	time = 0;
 	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
+	time = ((tv.tv_sec * (long int)1000) + (tv.tv_usec / 1000));
+	return (time);
 }
 
 void	take_forks(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->main->forks[philo->lfork]);
-	action(philo, TAKE_FORKS);
 	pthread_mutex_lock(&philo->main->forks[philo->rfork]);
+	action(philo, TAKE_FORKS);
+	pthread_mutex_lock(&philo->main->forks[philo->lfork]);
 	action(philo, TAKE_FORKS);
 }
 
 void	eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->mutex);
+	philo->last_meal = get_time();
 	if (philo->main->number_of_times >= 0)
 	{
-		philo->last_meal = get_time();
 		pthread_mutex_lock(&philo->main->all_eat);
 		if (philo->main->common_eat > 0 && philo->must_eat > 0)
 		{
@@ -46,11 +49,8 @@ void	eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->main->all_eat);
 	}
 	else
-	{
-		philo->last_meal = get_time();
 		action(philo, EAT);
-	}
-	usleep(philo->main->time_to_eat * 1000);
+	ph_sleep(philo->main->time_to_eat);
 	pthread_mutex_unlock(&philo->mutex);
 }
 
@@ -59,6 +59,6 @@ void	put_forks(t_philo *philo)
 	pthread_mutex_unlock(&philo->main->forks[philo->lfork]);
 	pthread_mutex_unlock(&philo->main->forks[philo->rfork]);
 	action(philo, SLEEP);
-	usleep(philo->main->time_to_sleep * 1000);
+	ph_sleep(philo->main->time_to_sleep);
 	action(philo, THINK);
 }
