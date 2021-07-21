@@ -46,16 +46,17 @@ int	action(t_philo *philo, int type)
 	done = 1;
 	pthread_mutex_lock(&philo->main->str);
 	time = get_time() - philo->main->start;
-	if (done)
+	if (philo->main->flag)
 	{
-		sim(time, philo->pos, type);
 		if (type == DEAD || type == OVER)
 		{
-			done = 0;
+			philo->main->flag = 0;
+			pthread_mutex_unlock(&philo->main->str);
 			stop_sim(time, philo->pos, type);
 			pthread_mutex_unlock(&philo->main->dead);
-			pthread_mutex_lock(&philo->main->str);
+			ph_sleep(philo->main->time_to_die);
 		}
+		sim(time, philo->pos, type);
 	}
 	pthread_mutex_unlock(&philo->main->str);
 	return (0);

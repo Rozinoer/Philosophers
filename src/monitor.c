@@ -18,7 +18,7 @@ void	*monitoring(void *philo_v)
 	long int	time;
 
 	philo = (t_philo *)philo_v;
-	while (1)
+	while (philo->main->flag)
 	{
 		usleep(100);
 		pthread_mutex_lock(&philo->mutex);
@@ -26,11 +26,10 @@ void	*monitoring(void *philo_v)
 		if (time - philo->last_meal > philo->main->time_to_die)
 		{
 			action(philo, DEAD);
-			pthread_mutex_unlock(&philo->main->dead);
-			pthread_mutex_lock(&philo->main->str);
 			pthread_mutex_unlock(&philo->mutex);
 			return (NULL);
 		}
 		pthread_mutex_unlock(&philo->mutex);
 	}
+	return (NULL);
 }

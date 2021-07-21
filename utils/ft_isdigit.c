@@ -12,18 +12,18 @@
 
 #include "Philosophers.h"
 
-void    ph_sleep(int t)
+void	ph_sleep(int t)
 {
-    int delta;
-    int start;
+	int	delta;
+	int	start;
 
-    start = get_time();
-    delta = 0;
-    while (delta < t)
-    {
-        delta = get_time() - start;
-        usleep(100);
-    }
+	start = get_time();
+	delta = 0;
+	while (delta < t)
+	{
+		delta = get_time() - start;
+		usleep(100);
+	}
 }
 
 int	ft_isdigit(int c)

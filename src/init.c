@@ -85,6 +85,7 @@ static void	init_ptr(t_main *main, char **argv, int argc)
 	main->forks = NULL;
 	main->philo = NULL;
 	main->philos = NULL;
+	main->flag = 1;
 	main->amount = ft_atoi(argv[1]);
 	main->time_to_die = ft_atoi(argv[2]);
 	main->time_to_eat = ft_atoi(argv[3]);

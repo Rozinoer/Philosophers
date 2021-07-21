@@ -23,7 +23,7 @@ void	*eating(void *philo_v)
 	philo->last_meal = get_time();
 	pthread_create(&dead, NULL, monitoring, philo_v);
 	pthread_detach(dead);
-	while (1)
+	while (philo->main->flag)
 	{
 		take_forks(philo);
 		eat(philo);
@@ -71,7 +71,12 @@ int	start_thread(t_main *main)
 		philo = (void *)(main->philos[i]);
 		if (pthread_create(&main->philo[i], NULL, eating, philo) != 0)
 			return (1);
-		pthread_detach(main->philo[i]);
+		i++;
+	}
+	i = 0;
+	while (i < main->amount)
+	{
+		pthread_join(main->philo[i], NULL);
 		i++;
 	}
 	return (0);

@@ -14,13 +14,10 @@
 
 long int	get_time(void)
 {
-	long int time;
 	static struct timeval	tv;
 
-	time = 0;
 	gettimeofday(&tv, NULL);
-	time = ((tv.tv_sec * (long int)1000) + (tv.tv_usec / 1000));
-	return (time);
+	return ((tv.tv_sec * (long int)1000) + (tv.tv_usec / 1000));
 }
 
 void	take_forks(t_philo *philo)
