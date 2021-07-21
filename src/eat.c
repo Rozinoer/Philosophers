@@ -33,10 +33,10 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(&philo->mutex);
 	if (philo->main->number_of_times >= 0)
 	{
+		philo->last_meal = get_time();
 		pthread_mutex_lock(&philo->main->all_eat);
 		if (philo->main->common_eat > 0 && philo->must_eat > 0)
 		{
-			philo->last_meal = get_time();
 			action(philo, EAT);
 			philo->main->common_eat--;
 			philo->must_eat--;
