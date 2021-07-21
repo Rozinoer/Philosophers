@@ -32,19 +32,19 @@ void	*eating(void *philo_v)
 
 int	freed(t_main *main, int ret)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < main->amount)
 	{
-		if (pthread_mutex_destroy(&main->philos[i]->mutex) == 1 ||
-		pthread_mutex_destroy(&main->forks[i]) == 1)
+		if (pthread_mutex_destroy(&main->philos[i]->mutex) == 1
+			|| pthread_mutex_destroy(&main->forks[i]) == 1)
 			ret = 3;
 		i++;
 	}
-	if (pthread_mutex_destroy(&main->dead) == 1 ||
-	pthread_mutex_destroy(&main->str) == 1 ||
-	pthread_mutex_destroy(&main->all_eat) == 1)
+	if (pthread_mutex_destroy(&main->dead) == 1
+		|| pthread_mutex_destroy(&main->str) == 1
+		|| pthread_mutex_destroy(&main->all_eat) == 1)
 		ret = 3;
 	i = main->amount - 1;
 	while (i >= 0)

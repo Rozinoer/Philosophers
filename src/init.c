@@ -20,9 +20,9 @@ static int	init_mutex(t_main *main, int i)
 			return (1);
 		i--;
 	}
-	if (pthread_mutex_init(&main->dead, NULL) == 1 ||
-	pthread_mutex_init(&main->str, NULL) == 1 ||
-	pthread_mutex_init(&main->all_eat, NULL) == 1)
+	if (pthread_mutex_init(&main->dead, NULL) == 1
+		|| pthread_mutex_init(&main->str, NULL) == 1
+		|| pthread_mutex_init(&main->all_eat, NULL) == 1)
 		return (1);
 	pthread_mutex_lock(&main->dead);
 	return (0);
@@ -36,8 +36,8 @@ static int	init_each_philo(t_main *main)
 	while (i < main->amount)
 	{
 		main->philos[i] = (t_philo *)malloc(sizeof(t_philo));
-		if (!main->philos[i] || 
-		pthread_mutex_init(&main->philos[i]->mutex, NULL) == 1)
+		if (!main->philos[i]
+			|| pthread_mutex_init(&main->philos[i]->mutex, NULL) == 1)
 			return (1);
 		main->philos[i]->main = main;
 		main->philos[i]->must_eat = 0;
@@ -47,7 +47,6 @@ static int	init_each_philo(t_main *main)
 			main->philos[i]->rfork = 0;
 		else
 			main->philos[i]->rfork = i + 1;
-		// pthread_mutex_init(&main->philos[i]->mutex, NULL);
 		if (main->number_of_times >= 0)
 			main->philos[i]->must_eat = main->number_of_times;
 		i++;
@@ -105,8 +104,8 @@ int	init(int argc, char **argv, t_main *main)
 	main->philos = (t_philo **)malloc(sizeof(t_philo *) * main->amount);
 	if (!main->philos)
 		return (str_err("Error: malloc\n", 1));
-	if (init_each_philo(main) == 1 || 
-	init_mutex(main, main->amount) == 1)
+	if (init_each_philo(main) == 1
+		|| init_mutex(main, main->amount) == 1)
 		return (str_err("Error: init\n", 1));
 	return (0);
 }

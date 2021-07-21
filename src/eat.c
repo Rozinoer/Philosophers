@@ -45,7 +45,7 @@ void	eat(t_philo *philo)
 			pthread_mutex_unlock(&philo->main->dead);
 		pthread_mutex_unlock(&philo->main->all_eat);
 	}
-	else 
+	else
 	{
 		philo->last_meal = get_time();
 		action(philo, EAT);
