@@ -42,7 +42,7 @@ int	freed(t_main *main, int ret)
 			ret = 3;
 		i++;
 	}
-	if (pthread_mutex_destroy(&main->died) == 1 ||
+	if (pthread_mutex_destroy(&main->dead) == 1 ||
 	pthread_mutex_destroy(&main->str) == 1 ||
 	pthread_mutex_destroy(&main->all_eat) == 1)
 		ret = 3;
@@ -78,7 +78,7 @@ int	main(int argc, char **argv)
 		pthread_detach(main.philo[i++]);
 		usleep(100);
 	}
-	pthread_mutex_lock(&main.died);
-	pthread_mutex_unlock(&main.died);
+	pthread_mutex_lock(&main.dead);
+	pthread_mutex_unlock(&main.dead);
 	return (freed(&main, 0));
 }

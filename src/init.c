@@ -20,11 +20,11 @@ static int	init_mutex(t_main *main, int i)
 			return (1);
 		i--;
 	}
-	if (pthread_mutex_init(&main->died, NULL) == 1 ||
+	if (pthread_mutex_init(&main->dead, NULL) == 1 ||
 	pthread_mutex_init(&main->str, NULL) == 1 ||
 	pthread_mutex_init(&main->all_eat, NULL) == 1)
 		return (1);
-	pthread_mutex_lock(&main->died);
+	pthread_mutex_lock(&main->dead);
 	return (0);
 }
 

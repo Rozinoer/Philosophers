@@ -39,7 +39,7 @@ typedef struct s_main
 	int				common_eat;
 	pthread_t		*philo;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	died;
+	pthread_mutex_t	dead;
 	pthread_mutex_t	str;
 	pthread_mutex_t	all_eat;
 	t_philo			**philos;

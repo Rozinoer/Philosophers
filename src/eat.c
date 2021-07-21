@@ -42,7 +42,7 @@ void	eat(t_philo *philo)
 			philo->must_eat--;
 		}
 		else
-			pthread_mutex_unlock(&philo->main->died);
+			pthread_mutex_unlock(&philo->main->dead);
 		pthread_mutex_unlock(&philo->main->all_eat);
 	}
 	else 
