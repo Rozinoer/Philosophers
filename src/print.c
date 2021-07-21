@@ -14,7 +14,7 @@
 
 int	str_err(char *str, int code)
 {
-	printf("%s\n", str);
+	printf("%s", str);
 	return (code);
 }
 
