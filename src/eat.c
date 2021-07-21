@@ -52,7 +52,6 @@ void	eat(t_philo *philo)
 	}
 	usleep(philo->main->time_to_eat * 1000);
 	pthread_mutex_unlock(&philo->mutex);
-	pthread_mutex_unlock(&philo->count);
 }
 
 void	put_forks(t_philo *philo)
