@@ -52,8 +52,9 @@ int	action(t_philo *philo, int type)
 		{
 			philo->main->flag = 0;
 			pthread_mutex_unlock(&philo->main->str);
+			if (philo->lfork == philo->rfork)
+				pthread_mutex_unlock(&philo->main->forks[philo->rfork]);
 			stop_sim(time, philo->pos, type);
-			pthread_mutex_unlock(&philo->main->dead);
 			ph_sleep(philo->main->time_to_die);
 		}
 		sim(time, philo->pos, type);

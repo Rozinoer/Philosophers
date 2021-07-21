@@ -93,7 +93,5 @@ int	main(int argc, char **argv)
 	main.start = get_time();
 	if (start_thread(&main) == 1)
 		return (freed(&main, 1));
-	pthread_mutex_lock(&main.dead);
-	pthread_mutex_unlock(&main.dead);
 	return (freed(&main, 0));
 }
