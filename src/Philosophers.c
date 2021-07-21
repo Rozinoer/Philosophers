@@ -58,26 +58,38 @@ int	freed(t_main *main, int ret)
 	return (ret);
 }
 
+int	start_thread(t_main *main, int p)
+{
+	int		i;
+	void	*philo;
+
+	i = 0;
+	while (i < main->amount)
+	{
+		philo = (void *)(main->philos[i]);
+		if (i % 2 == p)
+		{
+			if (pthread_create(&main->philo[i], NULL, eating, philo) != 0)
+				return (1);
+		}
+		pthread_detach(main->philo[i++]);
+		usleep(100);
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_main		main;
-	int			i;
-	void		*philo;
 
-	i = 0;
 	if (argc < 5 || argc > 6)
 		return (str_err("Error argument\n", 1));
 	if (init(argc, argv, &main))
 		return (str_err("Error init\n", 1));
 	main.start = get_time();
-	while (i < main.amount)
-	{
-		philo = (void *)(main.philos[i]);
-		if (pthread_create(&main.philo[i], NULL, eating, philo) != 0)
-			return (freed(&main, 1));
-		pthread_detach(main.philo[i++]);
-		usleep(100);
-	}
+	if (start_thread(&main, 0) == 1
+		|| start_thread(&main, 1) == 1)
+		return (freed(&main, 1));
 	pthread_mutex_lock(&main.dead);
 	pthread_mutex_unlock(&main.dead);
 	return (freed(&main, 0));
