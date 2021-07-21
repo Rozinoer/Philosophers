@@ -68,7 +68,7 @@ int	main(int argc, char **argv)
 	if (argc < 5 || argc > 6)
 		return (str_err("Error argument\n", 1));
 	if (init(argc, argv, &main))
-		return (str_err("Error init\n", 1) && freed(&main, 1));
+		return (str_err("Error init\n", 1));
 	main.start = get_time();
 	while (i < main.amount)
 	{
